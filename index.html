@@ -8,7 +8,7 @@
     <style>
         :root {
             --bg: #f2efeb; 
-            --ink: #3a3734; 
+            --ink: #3a3734; /* 배경보다 어두운 묵색 */
             --point: #b32d2e;
             --font-serif: 'Noto Serif KR', serif;
             --font-sans: 'Pretendard', sans-serif;
@@ -25,97 +25,89 @@
             overflow-x: hidden;
         }
 
-        /* 팝업 영상 스타일 */
+        /* [팝업 영상 스타일] */
         #videoPopup {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(58, 55, 52, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(58, 55, 52, 0.98); 
+            backdrop-filter: blur(15px);
             z-index: 10000;
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 1;
-            transition: opacity 0.8s ease;
+            transition: opacity 1s ease;
         }
-        .popup-container { position: relative; width: 80%; max-width: 1000px; box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
-        .popup-container video { width: 100%; display: block; }
-        .popup-close { position: absolute; top: -40px; right: 0; color: #fff; background: none; border: none; font-size: 1rem; cursor: pointer; letter-spacing: 0.1em; }
+        .popup-container { position: relative; width: 90%; max-width: 500px; box-shadow: 0 40px 80px rgba(0,0,0,0.6); }
+        .popup-container video { width: 100%; display: block; border-radius: 4px; }
+        .popup-close { position: absolute; top: -50px; right: 0; color: #fff; background: none; border: none; font-size: 0.9rem; cursor: pointer; letter-spacing: 0.2em; font-weight: 300; }
 
-        /* 섹션 스타일 */
+        /* [섹션 스타일] */
         section { 
             width: 100%; min-height: 100vh;
             display: flex; align-items: center; justify-content: center; 
             padding: 120px 10vw; scroll-snap-align: start; 
             position: relative; background: var(--bg);
         }
-
         .container { max-width: 1200px; width: 100%; position: relative; z-index: 2; }
 
-        /* 와이드 그래프 스타일 */
+        /* [그래프 및 분석 박스] */
         .graph-wrap { width: 100%; margin: 50px 0; }
         .graph-img { width: 100%; height: auto; border-radius: 2px; }
         .graph-analysis { 
-            background: rgba(255,255,255,0.3); 
+            background: rgba(255,255,255,0.4); 
             padding: 30px; 
             border-left: 3px solid var(--point);
             margin-top: 20px;
         }
-        .graph-analysis p { font-size: 1.1rem; color: var(--ink); font-weight: 400; }
+        .graph-analysis p { font-size: 1.05rem; color: var(--ink); font-weight: 400; }
+        .source-text { font-size: 0.7rem; opacity: 0.4; margin-top: 10px; color: var(--ink); display: block; text-decoration: none; }
 
-        .source-text { font-size: 0.75rem; opacity: 0.4; margin-top: 10px; color: var(--ink); display: block; text-decoration: none; }
-        .source-text:hover { opacity: 0.8; text-decoration: underline; }
+        /* [디자인 요소] */
+        .video-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 0; pointer-events: none; }
+        .video-bg video { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; filter: grayscale(0.4); }
+        .hero-title h1 { font-family: var(--font-serif); font-size: 8vw; line-height: 1.1; font-weight: 900; color: var(--ink); }
+        .hero-title p { letter-spacing: 0.5em; font-size: 1.1rem; opacity: 0.7; color: var(--ink); margin-bottom: 10px; }
 
-        .video-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
-            z-index: 0; pointer-events: none;
-        }
-        .video-bg video { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; filter: grayscale(0.3); }
-        
-        .hero-title { color: var(--ink); text-align: left; }
-        .hero-title h1 { font-family: var(--font-serif); font-size: 8vw; line-height: 1; margin-bottom: 20px; font-weight: 900; color: var(--ink); }
-        .hero-title p { letter-spacing: 0.5em; font-size: 1.2rem; opacity: 0.7; color: var(--ink); }
-
-        h2 { font-family: var(--font-serif); font-size: clamp(2rem, 4.5vw, 3.2rem); line-height: 1.2; margin-bottom: 30px; color: var(--ink); }
+        h2 { font-family: var(--font-serif); font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.2; margin-bottom: 25px; color: var(--ink); }
         .label { color: var(--point); font-weight: 700; letter-spacing: 0.2em; font-size: 0.8rem; margin-bottom: 15px; display: block; }
-        .desc { font-size: 1.2rem; font-weight: 300; color: var(--ink); opacity: 0.8; max-width: 800px; }
+        .desc { font-size: 1.1rem; font-weight: 300; opacity: 0.9; max-width: 800px; }
         b { font-weight: 700; color: var(--ink); }
 
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
         .card-wrap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
         .card { background: rgba(255,255,255,0.4); padding: 40px; border: 1px solid rgba(0,0,0,0.05); transition: 0.5s; }
-        .card:hover { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-        .card h4 { font-family: var(--font-serif); font-size: 1.4rem; margin-bottom: 15px; white-space: nowrap; }
+        .card:hover { background: var(--ink); color: var(--bg); }
+        .card h4 { font-family: var(--font-serif); font-size: 1.3rem; margin-bottom: 15px; white-space: nowrap; }
 
         .reveal { opacity: 0; transform: translateY(50px); transition: 1.2s cubic-bezier(0.19, 1, 0.22, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        footer { height: auto; padding: 100px 10vw; background: var(--ink); color: var(--bg); scroll-snap-align: end; }
-        footer p { color: var(--bg); opacity: 0.6; }
+        footer { padding: 100px 10vw; background: var(--ink); color: var(--bg); scroll-snap-align: end; }
+        footer p { opacity: 0.6; font-size: 0.9rem; }
 
         @media (max-width: 900px) {
             .card-wrap { grid-template-columns: 1fr; }
             section { height: auto; padding: 80px 10vw; scroll-snap-align: none; }
             html { scroll-snap-type: none; }
-            .card h4 { white-space: normal; }
-            h2 { font-size: 2.2rem; }
+            h2 { font-size: 1.8rem; }
+            .hero-title h1 { font-size: 12vw; }
         }
     </style>
 </head>
 <body>
 
-    <!-- [15초 팝업 영상] -->
+    <!-- [교체된 15초 팝업 영상] -->
     <div id="videoPopup">
         <div class="popup-container">
-            <button class="popup-close" onclick="closePopup()">SKIP ✕</button>
+            <button class="popup-close" onclick="closePopup()">CLOSE ✕</button>
             <video id="introVideo" autoplay muted playsinline>
+                <!-- 전달해주신 영상을 popup_video.mp4로 저장하세요 -->
                 <source src="popup_video.mp4" type="video/mp4">
-                <source src="https://assets.mixkit.co/videos/preview/mixkit-hand-pouring-tea-into-a-cup-40156-large.mp4" type="video/mp4">
             </video>
         </div>
     </div>
 
-    <!-- 고정 배경 영상 -->
+    <!-- 고정 배경 영상 (메인) -->
     <div class="video-bg">
         <video autoplay muted loop playsinline id="mainVideo">
             <source src="video.mp4" type="video/mp4">
@@ -129,162 +121,124 @@
             <div class="hero-title reveal">
                 <p>PLANNING ARCHIVE : RITUAL LAB</p>
                 <h1>15초의<br>풍류(風流)</h1>
-                <p style="font-size: 1rem; opacity: 0.6; margin-top: 20px;">현대적 선비의 삶 — THE MODERN SEONBI</p>
+                <p style="opacity: 0.5; margin-top: 20px;">현대적 선비의 삶 — THE MODERN SEONBI</p>
             </div>
         </div>
     </section>
 
-    <!-- 02. RESEARCH BACKGROUND (Stacked Layout) -->
+    <!-- 02. RESEARCH BACKGROUND -->
     <section>
         <div class="container">
             <div class="reveal">
                 <span class="label">연구 배경</span>
                 <h2>숏폼의 홍수, 결핍된 <b>정적 시간</b></h2>
                 <p class="desc">
-                    현대인의 일상은 숏폼 콘텐츠에 의해 조각나 있습니다. 무의식적인 스크롤과 짧고 강렬한 자극은 '도파민 중독'을 넘어 일상적인 번아웃을 초래하고 있습니다. 우리는 이 현상을 통계적으로 분석하여 기획의 당위성을 확보했습니다.
+                    현대인의 일상은 끊임없는 스크롤 속에 파편화되어 있습니다. 짧고 강렬한 자극 뒤에 남는 공허함과 번아웃을 해결하기 위해, 우리는 전통의 '풍류'를 일상의 리츄얼로 끌어들였습니다.
                 </p>
             </div>
 
-            <!-- 그래프 1 (Wide) -->
-            <div class="graph-wrap reveal" style="transition-delay: 0.2s;">
+            <div class="graph-wrap reveal">
                 <img src="trend_graph.png" alt="숏폼 트렌드 현황" class="graph-img">
                 <div class="graph-analysis">
-                    <p><b>통계 분석:</b> 전 연령대에서 70% 이상의 높은 숏폼 이용률을 보이며, 특히 이용자의 <b>51.7%가 하루 1회 이상</b> 시청하는 '일상적 중독' 단계에 진입했음을 보여줍니다. 이는 숏폼이 단순한 유흥을 넘어 피할 수 없는 생활 환경이 되었음을 시사합니다.</p>
+                    <p><b>통계 분석:</b> 전 연령대에서 70% 이상의 이용률을 보이며, 특히 이용자의 <b>51.7%가 매일 시청</b>하고 있습니다. 이는 숏폼이 일상 깊숙이 자리 잡았으며, 그만큼 정서적 환기(Ritual)가 필요한 시점임을 시사합니다.</p>
                 </div>
-                <a href="https://kosis.kr/index/index.do" target="_blank" class="source-text">
-                    [KOSIS-국가통계포털: 최근 1년 숏폼 시청 빈도] https://kosis.kr/index/index.do
-                </a>
+                <a href="https://kosis.kr/index/index.do" target="_blank" class="source-text">[KOSIS-국가통계포털: 최근 1년 숏폼 시청 빈도]</a>
             </div>
         </div>
     </section>
 
-    <!-- 03. MARKET ANALYSIS (Stacked Layout) -->
+    <!-- 03. MARKET ANALYSIS -->
     <section>
         <div class="container">
             <div class="reveal">
                 <span class="label">시장 분석 및 사례</span>
                 <h2>보는 것에서 <b>체험하는 것</b>으로</h2>
-                <p style="font-size: 1.3rem; line-height: 1.4; margin-bottom: 20px;">"소비는 이제 제품을 넘어 <b>경험과 정체성</b>을 구매하는 행위입니다."</p>
+                <p style="font-size: 1.2rem; margin-bottom: 20px; opacity: 0.8;">"소비는 이제 제품을 넘어 경험과 정체성을 구매하는 행위입니다."</p>
                 <p class="desc">
-                    단순한 시청을 넘어 오감을 자극하는 체험이 브랜드 로열티를 결정합니다. 우리는 소비자가 숏폼을 시청한 후 느끼는 '공허함'을 분석하여, 이를 채워줄 리츄얼의 필요성을 도출했습니다.
+                    단순 시청을 넘어선 오감 체험이 브랜드 가치를 결정합니다. 탬버린즈와 국박의 성공 사례처럼, 체험이 감정으로 연결될 때 전통은 새로운 생명력을 얻습니다.
                 </p>
             </div>
 
-            <!-- 그래프 2 (Wide) -->
-            <div class="graph-wrap reveal" style="transition-delay: 0.2s;">
+            <div class="graph-wrap reveal">
                 <img src="analysis_graph.png" alt="소비자 분석" class="graph-img">
                 <div class="graph-analysis">
-                    <p><b>통계 분석:</b> 숏폼 시청 이유 중 '시간 때우기(46.9%)'와 '습관적 시청(19.2%)'의 비중이 높게 나타납니다. 특히 시청 후 <b>별다른 행동을 하지 않는 비율이 49.7%</b>에 달하는 것은, 현재의 콘텐츠 소비가 능동적 즐거움보다는 수동적이고 공허한 시간 소비에 치중되어 있음을 증명합니다.</p>
+                    <p><b>통계 분석:</b> 시청 이유 중 '시간 때우기'와 '습관적 시청'이 주를 이루며, <b>시청 후 별다른 행동을 하지 않는 비율이 49.7%</b>에 달합니다. 이는 현재의 소비가 수동적임을 뜻하며, 능동적 리츄얼로의 전환이 필요함을 증명합니다.</p>
                 </div>
-                <a href="https://kosis.kr/index/index.do" target="_blank" class="source-text">
-                    [KOSIS-국가통계포털: 최근 1년 숏폼 시청 빈도] https://kosis.kr/index/index.do
-                </a>
+                <a href="https://kosis.kr/index/index.do" target="_blank" class="source-text">[KOSIS-국가통계포털: 최근 1년 숏폼 시청 행태조사]</a>
             </div>
         </div>
     </section>
 
-    <!-- 04. CORE STRATEGY -->
+    <!-- 04. STRATEGY -->
     <section>
         <div class="container">
             <span class="label">핵심 전략</span>
             <h2 class="reveal">과거와 현재를 잇는<br><b>이중 구조의 설계</b></h2>
             <div class="card-wrap reveal">
-                <div class="card">
-                    <h4>01. 공간 체험</h4>
-                    <p>일상 공간을 '정적 몰입'의 장소로 재설계하여 오감을 자극합니다.</p>
-                </div>
-                <div class="card">
-                    <h4>02. 디지털 확산</h4>
-                    <p>15초의 챌린지를 통해 '정적인 힙함'을 SNS 트렌드로 확산시킵니다.</p>
-                </div>
-                <div class="card">
-                    <h4>03. 선순환 구조</h4>
-                    <p>체험의 경험을 굿즈로 소유하게 함으로써 지속 가능성을 확보합니다.</p>
-                </div>
+                <div class="card"><h4>01. 공간 체험</h4><p>일상 공간을 '정적 몰입'의 장소로 재설계하여 오감을 자극합니다.</p></div>
+                <div class="card"><h4>02. 디지털 확산</h4><p>15초의 챌린지를 통해 '정적인 힙함'을 트렌드로 확산시킵니다.</p></div>
+                <div class="card"><h4>03. 선순환 구조</h4><p>체험을 굿즈로 소유하게 함으로써 지속 가능성을 확보합니다.</p></div>
             </div>
         </div>
     </section>
 
-    <!-- 05. CONTENT DETAILS -->
+    <!-- 05. RITUALS -->
     <section>
         <div class="container">
             <span class="label">CONTENT : K-RITUAL</span>
             <h2 class="reveal">현대 선비의 <b>3가지 리츄얼</b></h2>
             <div class="card-wrap reveal">
-                <div class="card">
-                    <span style="font-weight: 700; color: var(--point);">STATIC</span>
-                    <h4>정좌</h4>
-                    <p>어지러운 책상을 정리하고 바르게 앉아 나를 정돈하는 타임랩스.</p>
-                </div>
-                <div class="card">
-                    <span style="font-weight: 700; color: var(--point);">TEA-VIEW</span>
-                    <h4>다경</h4>
-                    <p>단정한 잔에 차를 따르며 가야금 Lo-fi 비트에 몰입하는 시간.</p>
-                </div>
-                <div class="card">
-                    <span style="font-weight: 700; color: var(--point);">BORROWED</span>
-                    <h4>차경</h4>
-                    <p>스마트폰을 끄고 창밖 풍경을 5초간 온전히 빌려오는 미학.</p>
-                </div>
+                <div class="card"><span style="color:var(--point); font-weight:700;">STATIC</span><h4>정좌</h4><p>책상을 정리하고 바르게 앉아 나를 정돈하는 타임랩스.</p></div>
+                <div class="card"><span style="color:var(--point); font-weight:700;">TEA-VIEW</span><h4>다경</h4><p>단정한 잔에 차를 따르며 가야금 사운드에 몰입하는 시간.</p></div>
+                <div class="card"><span style="color:var(--point); font-weight:700;">BORROWED</span><h4>차경</h4><p>스마트폰을 끄고 창밖 풍경을 5초간 온전히 빌려오는 미학.</p></div>
             </div>
         </div>
     </section>
 
-    <!-- 06. IMPLICATION -->
+    <!-- 06. CONCLUSION -->
     <section>
         <div class="container">
-            <span class="label">기대 효과 및 시사점</span>
+            <span class="label">시사점</span>
             <div class="reveal">
-                <h2 style="font-size: 5vw;">전통은 살아있는<br><b>정신적 솔루션</b>이 된다</h2>
-                <p class="desc" style="margin-top: 40px; font-size: 1.5rem;">
-                    본 기획은 한국 문화의 <b>'풍류'</b>를 현대인의 결핍을 채워주는 실질적인 문화 콘텐츠 모델로 제안합니다. 이는 지속 가능한 <b>문화 경제 구조</b>를 형성하는 첫걸음이 될 것입니다.
+                <h2 style="font-size: 5vw;">전통은 살아있는<br><b>정신적 솔루션</b></h2>
+                <p class="desc" style="margin-top: 40px; font-size: 1.4rem;">
+                    한국의 <b>'풍류'</b>를 박제된 유산이 아닌, 현대인의 결핍을 채워주는 실질적인 문화 모델로 제안합니다. 이는 숏폼 시대에 새로운 멈춤의 가치를 전할 것입니다.
                 </p>
             </div>
         </div>
     </section>
 
-    <!-- 07. TEAM & FOOTER -->
+    <!-- 07. FOOTER -->
     <footer>
         <div class="container">
-            <div class="grid-2">
-                <div>
-                    <h2 style="font-size: 3.5rem; margin-bottom: 20px; color: var(--bg);">RITUAL LAB</h2>
-                    <p> 문의/건의 : 20223732@hallym.ac.kr </p>
-                </div>
-                <div style="text-align: right;">
-                    <p style="color: var(--point); font-weight: 700; margin-bottom: 10px;">#K_STANCE #오늘의선비 #15초풍류</p>
-                    <p>기획자: 장현지<br>팀원: 서한민, 안승이, 허준희, 이소진, 오민선</p>
+            <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                <div><h2 style="font-size:3rem; color:var(--bg); margin-bottom:10px;">RITUAL LAB</h2><p>문의: 20223732@hallym.ac.kr</p></div>
+                <div style="text-align:right;">
+                    <p style="color:var(--point); font-weight:700; margin-bottom:10px;">#K_STANCE #오늘의선비 #15초풍류</p>
+                    <p>기획자: 장현지 | 팀원: 서한민, 안승이, 허준희, 이소진, 오민선</p>
                 </div>
             </div>
         </div>
     </footer>
 
     <script>
-        // 팝업 로직
         const popup = document.getElementById('videoPopup');
         const introVideo = document.getElementById('introVideo');
         function closePopup() {
             popup.style.opacity = '0';
-            setTimeout(() => { popup.style.display = 'none'; }, 800);
+            setTimeout(() => { popup.style.display = 'none'; }, 1000);
         }
-        introVideo.onended = function() { closePopup(); };
+        introVideo.onended = closePopup;
         setTimeout(closePopup, 16000);
 
-        // 스크롤 애니메이션
-        const observerOptions = { threshold: 0.1 };
         const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) { entry.target.classList.add('active'); }
-            });
-        }, observerOptions);
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, { threshold: 0.1 });
         document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-        // 배경 영상 투명도
         window.addEventListener('scroll', () => {
-            const scroll = window.scrollY;
             const video = document.querySelector('.video-bg');
-            const opacity = 1 - (scroll / (window.innerHeight * 1.5));
-            video.style.opacity = Math.max(opacity, 0.1);
+            video.style.opacity = Math.max(1 - (window.scrollY / (window.innerHeight * 1.5)), 0.1);
         });
     </script>
 </body>
