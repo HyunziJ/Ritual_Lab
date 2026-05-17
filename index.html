@@ -8,7 +8,7 @@
     <style>
         :root {
             --bg: #f2efeb; 
-            --ink: #3a3734; /* 배경보다 어두운 묵색 */
+            --ink: #3a3734; 
             --point: #b32d2e;
             --font-serif: 'Noto Serif KR', serif;
             --font-sans: 'Pretendard', sans-serif;
@@ -25,7 +25,7 @@
             overflow-x: hidden;
         }
 
-        /* [팝업 영상 스타일] */
+        /* [팝업 영상 스타일 - 크기 하향 조정] */
         #videoPopup {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -38,9 +38,10 @@
             opacity: 1;
             transition: opacity 1s ease;
         }
-        .popup-container { position: relative; width: 90%; max-width: 500px; box-shadow: 0 40px 80px rgba(0,0,0,0.6); }
+        /* width를 60%, max-width를 320px로 줄여 아담하게 변경 */
+        .popup-container { position: relative; width: 60%; max-width: 320px; box-shadow: 0 40px 80px rgba(0,0,0,0.6); }
         .popup-container video { width: 100%; display: block; border-radius: 4px; }
-        .popup-close { position: absolute; top: -50px; right: 0; color: #fff; background: none; border: none; font-size: 0.9rem; cursor: pointer; letter-spacing: 0.2em; font-weight: 300; }
+        .popup-close { position: absolute; top: -40px; right: 0; color: #fff; background: none; border: none; font-size: 0.8rem; cursor: pointer; letter-spacing: 0.2em; font-weight: 300; }
 
         /* [섹션 스타일] */
         section { 
@@ -51,7 +52,6 @@
         }
         .container { max-width: 1200px; width: 100%; position: relative; z-index: 2; }
 
-        /* [그래프 및 분석 박스] */
         .graph-wrap { width: 100%; margin: 50px 0; }
         .graph-img { width: 100%; height: auto; border-radius: 2px; }
         .graph-analysis { 
@@ -63,7 +63,6 @@
         .graph-analysis p { font-size: 1.05rem; color: var(--ink); font-weight: 400; }
         .source-text { font-size: 0.7rem; opacity: 0.4; margin-top: 10px; color: var(--ink); display: block; text-decoration: none; }
 
-        /* [디자인 요소] */
         .video-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: 0; pointer-events: none; }
         .video-bg video { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; filter: grayscale(0.4); }
         .hero-title h1 { font-family: var(--font-serif); font-size: 8vw; line-height: 1.1; font-weight: 900; color: var(--ink); }
@@ -96,12 +95,11 @@
 </head>
 <body>
 
-    <!-- [교체된 15초 팝업 영상] -->
+    <!-- [15초 팝업 영상 - 작게 수정됨] -->
     <div id="videoPopup">
         <div class="popup-container">
             <button class="popup-close" onclick="closePopup()">CLOSE ✕</button>
             <video id="introVideo" autoplay muted playsinline>
-                <!-- 전달해주신 영상을 popup_video.mp4로 저장하세요 -->
                 <source src="popup_video.mp4" type="video/mp4">
             </video>
         </div>
